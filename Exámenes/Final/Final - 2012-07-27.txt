@@ -1,0 +1,11 @@
+
+Examen DdS - 27/07/2012
+
+- Definir y explicar todas las posibles relaciones entre clases
+- Detallar las caract. de la clase de asociacion
+- Definir los métodos de codificacion de datos de entrada
+- Explicar cuando se da por finalizada una prueba
+- Definir un sesgo de salida y como se sesga una salida escrita
+- Definir los tipos de mantenimiento que pueden realizarse
+- Definir y relacionar robustez, confiabilidad y correccion
+- Nombrar todas las desventajas de la conversion en paralelo

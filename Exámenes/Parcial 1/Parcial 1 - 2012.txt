@@ -1,0 +1,21 @@
+ 1. ¿Cual es la función de una clase de control en el modelo de análisis?
+
+2. ¿En qué consiste la realización de un caso de uso?
+
+3. Analice la relación entre las propiedades de robusteze, corrección y confiabilidad.
+
+4. ¿En qué áreas se concentra el diseño de interfaces?
+
+5. Explique algunos de los principios de Mandel para el diseño de interfaces.
+
+6. ¿Qué significa "interfaz consistente" y cómo se logra?
+
+7. Expláyese sobre "Mensajes de error".
+
+8. ¿Qué es la condificación efectiva de los datos de entrada?
+
+9. Dé un ejemplo de códigos de bloques secuenciales.
+
+10. Enumere los tipos de codificación de datos de entrada que conoce.
+
+11. En una empresa se ha visto una caída de 10% en las ventas del último trimestre respecto del inmediatamente precedente, siendo los valores de los últimos 7 trimestres anteriores los siguientes: 99, 97, 100, 103, 101, 102, 100 y el último 90. Sesgue la salida para demostrar a) que todo está bien, b) que la empresa se hunde.

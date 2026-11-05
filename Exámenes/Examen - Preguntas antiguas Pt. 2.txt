@@ -1,0 +1,26 @@
+
+1ER EXAMEN PARCIAL 17/06/2004
+
+11. ¿Qué es el sesgo de una salida?
+
+
+
+03. ¿Cuándo se usan las pruebas a caja blanca?
+12. ¿Qué tipos de acoples hay?
+17. Un disco contiene el Sistema Operativo en un volumen (500 MB), archivos de oficina en otro (10 GB) y una base de datos en otro (5 MB). Se cuenta con un TAPE BACKUP de 4 GB de capacidad y 0,6 MB/s de velocidad de transferencia. Describa la política de BACKUP que implantaría considerando que los sistemas ya son críticos.
+18. ¿Cómo organizaría una salida escrita?
+22. ¿Qué errores tiene la password “VERDE”?
+
+
+
+2001
+1. ¿Qué es el sesgo de una salida?
+2. De un ejemplo de salida sesgada que minimice una derrota electoral 55% a 45%. UD es la agrupación derrotada.
+3. ¿Qué es una salida circular o re entrante?
+4. ¿Con qué metodología de back up respaldaría a una base de correo?
+5. ¿Qué inconvenientes tiene la codificación de entradas?
+8. Explique el problema de las escalas en las salidas gráficas.
+11. ¿Qué tipo de cohesión genera al segmentar un programa arbitrariamente?
+15. ¿Cómo se intercambian valores en un acople de datos en forma correcta?
+20. ¿Con qué técnica efectuaría el respaldo de una base de datos de 100 GB?
+21. Un módulo abre todas las bases de datos de un sistema e inicializa variables globales. ¿Qué cohesión tiene?

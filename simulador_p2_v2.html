@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulacro Parcial 2 – Diseño de Sistemas de Información | UTN</title>
+<style>
+:root{--bg:#0D1B2A;--card:#112240;--bd:#1E3A5F;--ac:#00AEEF;--tx:#CBD5E1;--ok:#10B981;--bad:#EF4444;--warn:#F59E0B}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx)}
+header{position:sticky;top:0;z-index:9;background:linear-gradient(135deg,#001933,#0055A4);border-bottom:2px solid var(--ac);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header b{color:#fff}header small{color:#93C5FD;display:block}
+#timer{font-family:ui-monospace,monospace;font-size:18px;padding:4px 12px;border:1px solid var(--bd);border-radius:6px;background:#001933;color:var(--ac)}
+#timer.low{color:var(--bad);border-color:var(--bad)}
+main{max-width:980px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:18px;margin-bottom:14px}
+.nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.nav button{width:36px;height:36px;border-radius:8px;border:1px solid var(--bd);background:#0A1628;color:var(--tx);cursor:pointer;font-weight:700}
+.nav button.done{background:#064E3B;border-color:var(--ok)}.nav button.cur{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac)}
+button.b{background:var(--ac);color:#001933;border:0;border-radius:8px;padding:9px 18px;font-weight:700;cursor:pointer}
+button.b.s{background:transparent;color:var(--ac);border:1px solid var(--ac)}button.b:disabled{opacity:.4;cursor:not-allowed}
+.tag{display:inline-block;font-size:11px;border:1px solid var(--bd);border-radius:99px;padding:2px 10px;color:#94A3B8;margin-bottom:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:#0A1628;border:1px solid #334155;border-radius:8px;padding:10px 14px;color:var(--tx);margin-bottom:8px;cursor:pointer;font-size:14px}
+.opt:hover{border-color:var(--ac)}.opt.sel{border-color:var(--ac);background:#0F2744;box-shadow:0 0 0 1px var(--ac)}
+.opt.right{border-color:var(--ok);background:#022C22}.opt.wrong{border-color:var(--bad);background:#1C0A0A}
+textarea{width:100%;background:#0A1628;border:1px solid #1E4D6B;border-radius:8px;color:#E2E8F0;font:13px ui-monospace,monospace;padding:12px;resize:vertical}
+pre{background:#060F1A;border:1px solid var(--bd);border-radius:8px;padding:12px;overflow-x:auto;font:12.5px/1.6 ui-monospace,monospace;color:#94E5A1;white-space:pre-wrap}
+pre code{font:inherit;color:inherit;white-space:inherit}
+.hint{background:#0C1A2E;border:1px solid #3B82F6;border-radius:8px;padding:12px 14px;color:#BFDBFE;margin-top:12px;font-size:14px}
+.model{background:#0A192B;border:1px solid #3975A8;border-radius:8px;padding:12px 14px;margin-top:12px;color:#DCEAF7}
+.model strong{display:block;color:#7DD3FC;margin-bottom:7px}
+.row{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.big{font-size:56px;font-weight:800;font-family:ui-monospace,monospace}
+h2{color:#fff;margin:0 0 10px;font-size:17px;line-height:1.4}
+.muted{color:#94A3B8;font-size:12px}
+.progress{height:7px;background:#071321;border-radius:9px;overflow:hidden;margin:0 0 14px}
+.progress>div{height:100%;background:var(--ac);transition:width .2s}
+.diagram{background:#F8FAFC;border-radius:9px;padding:12px;margin:10px 0 14px;overflow-x:auto}
+.diagram svg{display:block;width:100%;min-width:760px;height:auto;max-height:560px}
+.diagram-note{font-size:12px;color:#64748B;margin-top:6px}
+.question-block{margin:12px 0}
+@media(max-width:600px){main{padding:10px}.card{padding:13px}header{padding:10px}.big{font-size:44px}.opt{font-size:13px}}
+</style>
+</head>
+<body>
+<header>
+  <div><b>Simulacro Parcial 2 · Diseño de Sistemas de Información</b><small>UTN · Patrones, UML, SOLID, arquitectura, configuración, mantenimiento y pruebas</small></div>
+  <div class="row" style="gap:10px"><span id="timer">50:00</span><button class="b s" onclick="start()">Nuevo intento</button></div>
+</header>
+<main><div id="app"></div></main>
+<script>
+// Banco ampliado. Las preguntas originales se conservan con su redacción y opciones.
+const ORIGINAL=[
+{id:'O01',q:'¿Cuál/es de las siguientes afirmaciones son correctas acerca del uso de patrones de diseño?',multi:true,o:['Permiten mejorar la flexibilidad y la mantenibilidad del software.','Los patrones son recetas que deben seguirse al pie de la letra.','Solo pueden aplicarlos programadores avanzados.','Están diseñados para reemplazar cualquier tipo de documentación.','Los patrones de diseño formalizan un lenguaje común entre los diseñadores'],a:[0,4],e:'Los patrones documentan soluciones reutilizables y proporcionan un vocabulario compartido. Son guías que deben adaptarse al contexto; no son recetas rígidas, no sustituyen la documentación y no están reservados a programadores avanzados.'},
+{id:'O02',q:'En la Administración de la Configuración, ¿Cuál de las siguientes afirmaciones son verdaderas respecto a las líneas base?',multi:true,o:['No pueden modificarse bajo ninguna circunstancia.','Pueden actualizarse mediante un proceso formal de control de cambios.','Incluyen elementos aprobados como código, documentación y pruebas.','Sirven como referencia para comparar versiones posteriores.'],a:[1,2,3],e:'Una línea base es un conjunto de elementos de configuración aprobado que sirve como referencia. Puede cambiar, pero mediante un procedimiento formal de control de cambios.'},
+{id:'O03',q:'¿Qué técnicas o herramientas pueden ayudar a realizar el debugging? (Seleccione todas las que correspondan)',multi:true,o:['Análisis de logs.','Depurador integrado (IDE debugger)','Uso de breakpoints.','Pruebas unitarias.'],a:[0,1,2,3],e:'Los logs aportan evidencia de ejecución; el depurador y los breakpoints permiten inspeccionar el estado y avanzar paso a paso; las pruebas unitarias ayudan a aislar y reproducir defectos.'},
+{id:'O04',q:'¿Qué consecuencia puede tener un sistema sino se implementa el patrón DAO u otro patrón de persistencia?',o:['Mejor rendimiento en el acceso a la base de datos.','Incremento de la cohesión entre capas.','Fuerte dependencia de la capa de negocio respecto a la capa de acceso a datos.','Disminución del acoplamiento entre componentes.'],a:[2],e:'Sin una abstracción de persistencia, la lógica de negocio puede quedar acoplada a detalles concretos de acceso a datos, dificultando cambios y pruebas.'},
+{id:'O05',q:'¿Cuáles de los siguientes tipos de pruebas se consideran pruebas no funcionales? (Seleccione todas las que correspondan)',multi:true,o:['Pruebas de rendimiento.','Pruebas de integración.','Pruebas de stress','Pruebas de unidad.','Pruebas de seguridad.'],a:[0,2,4],e:'Rendimiento, stress y seguridad evalúan atributos de calidad no funcionales. Integración y unidad clasifican pruebas por alcance o nivel.'},
+{id:'O06',q:'En un diagrama de secuencia, ¿cuáles de las siguientes afirmaciones son correctas?',multi:true,o:['Los mensajes de retorno pueden omitirse si no aportan información relevante al flujo','Un mensaje asíncrono bloquea siempre al emisor hasta recibir respuesta.','Un diagrama de secuencia puede generarse a partir de la ingeniería inversa de código fuente.','Las barras de activación representan períodos durante los cuales un objeto está ejecutando una operación','Un mensaje síncrono implica que el emisor espera la finalización de la operación antes de continuar.'],a:[0,2,3,4],e:'Los retornos pueden omitirse si se sobreentienden. La ingeniería inversa puede producir diagramas. Las barras muestran ejecución. En un mensaje síncrono el emisor espera; el asíncrono no lo bloquea de esa manera.'},
+{id:'O07',q:'Luego de terminar todas las funcionalidades, un equipo de QA valida que el sistema completo cumpla con los requisitos especificados. Este proceso corresponde a:',o:['Pruebas de sistema.','Pruebas de integración.','Pruebas unitarias.','Pruebas de regresión.'],a:[0],e:'Las pruebas de sistema verifican el sistema integrado en su conjunto frente a los requisitos especificados.'},
+{id:'O08',q:'En una arquitectura con DAO y Factory, ¿qué sucede si se quiere agregar soporte para una nueva base de datos?',o:['No es posible agregar nuevas bases de datos sin reescribir toda la capa de acceso a datos.','Es necesario modificar la lógica de negocio para aceptar el nuevo tipo de conexión','Solo se implementan los nuevos DAOs y una nueva Factory que los provea.','Se deben modificar todas las clases DAO existentes.'],a:[2],e:'La Factory encapsula la creación y entrega de implementaciones DAO. Una nueva tecnología puede incorporarse agregando sus DAOs y la Factory correspondiente, sin acoplar la lógica de negocio al motor.'},
+{id:'O09',q:'Un hospital está incorporando un nuevo módulo digital para el área de emergencias. Sin embargo, el área de facturación seguirá con el sistema anterior en una primer etapa. El objetivo es que el personal se acostumbre progresivamente al nuevo sistema, mientras el resto del sistema sigue funcionando. ¿Qué tipo de implementación sería la más apropiada?',o:['Total','Por prototipado','Paralela','Gradual'],a:[3],e:'La implementación gradual introduce el nuevo sistema por módulos, áreas o etapas, manteniendo temporalmente partes del sistema anterior.'},
+{id:'O10',q:'En una institución educativa que usa un aplicativo Web, se detecta que los usuarios experimentan lentitud en horas pico. Se evalúan distintas soluciones: migrar el servidor a una máquina con más CPU y memoria (a); instalar varios servidores web y usar un balanceador de carga (b); replicar la base de datos para distribuir lecturas (c); optimizar la interfaz visual reduciendo imágenes (d). ¿Cuáles de estas medidas representan escalabilidad horizontal?',o:['Solo la b y c','Solo la a y c','Solo la a y d','Solo la b'],a:[0],e:'El escalamiento horizontal agrega instancias o nodos para distribuir la carga. Varios servidores web y réplicas de lectura agregan recursos en paralelo. Aumentar CPU y RAM de una máquina es escalamiento vertical.'},
+{id:'O11',q:'¿Cuáles de los siguientes tipos de mantenimiento pueden involucrar cambios en el código fuente del software? (Seleccione todas las que correspondan)',multi:true,o:['Preventivo','Perfectivo','Correctivo','Adaptativo'],a:[0,1,2,3],e:'Los cuatro tipos pueden requerir cambios en el código: prevenir problemas futuros, mejorar características, corregir defectos o adaptar el sistema a cambios del entorno.'},
+{id:'O12',q:'¿Qué principio/s SOLID favorecen una alta cohesión?',multi:true,o:['Principio de abierto/cerrado.','Principio de segregación de interfaces.','Principio de sustitución de Liskov.','Principio de responsabilidad única.'],a:[1,3],e:'SRP concentra una clase en una responsabilidad bien definida. ISP promueve interfaces específicas para clientes, evitando contratos amplios y poco relacionados. Ambos favorecen responsabilidades cohesionadas.'},
+{id:'O13',q:'Una empresa multinacional desea reemplazar su sistema de gestión de recursos humanos. El sistema actual funciona bien pero es obsoleto, y es vital que el nuevo sistema no interrumpa la operación diaria. Se debe garantizar que el nuevo sistema liquide los sueldos sin errores. El sistema es muy complejo y afecta a más de 5 áreas organizacionales. ¿Qué tipo de implementación sería la más apropiada?',o:['Por prototipado','Total','Paralela','Gradual'],a:[2],e:'La implementación paralela mantiene operativos el sistema anterior y el nuevo durante un período de comparación. Es adecuada cuando la continuidad y la confiabilidad son críticas, aunque tiene mayor costo operativo.'},
+{id:'O14',q:'En el contexto de la Administración de la Configuración de Software (Software Configuration Management, SCM), ¿cuáles de los siguientes elementos pueden considerarse ítems de configuración?',multi:true,o:['Casos de prueba y planes de testing','Código fuente del sistema.','Equipos del laboratorio de pruebas.','Scripts de despliegue y archivos de configuración del entorno.','Manuales de usuario y documentación técnica.','Calendario de reuniones del equipo de desarrollo.'],a:[0,1,3,4],e:'Los ítems de configuración son artefactos del producto y del proceso técnico que se identifican y controlan: código, pruebas, documentación y configuración/despliegue. El equipamiento físico y un calendario de reuniones no suelen ser ítems del producto bajo SCM en este contexto.'},
+{id:'O15',q:'Una empresa debe actualizar su sistema para qué sea compatible con una nueva versión del sistema operativo. ¿Qué tipo de mantenimiento se está realizando?',o:['Adaptativo','Preventivo','Perfectivo','Correctivo'],a:[0],e:'El mantenimiento adaptativo modifica el software para que siga funcionando en un entorno tecnológico que cambió, como una nueva versión del sistema operativo.'},
+{id:'O16',q:'¿Cuál de las siguientes afirmaciones describe qué es una arquitectura de software?',multi:true,o:['El conjunto de decisiones técnicas que definen cómo se organiza y comunica el sistema internamente.','El cronograma de desarrollo y las tareas asignadas al equipo durante el proyecto','El resultado de las decisiones de diseño que impactan en atributos como rendimiento, seguridad y mantenibilidad.','La estructura fundamental de un sistema, que define sus componentes, sus relaciones y los principios que guían su evolución.','El diseño gráfico de la interfaz de usuario, incluyendo colores, tipografía y disposición visual.'],a:[0,2,3],e:'La arquitectura comprende la estructura fundamental, sus elementos y relaciones, y las decisiones que condicionan atributos de calidad y evolución. No es un cronograma ni el diseño visual de la interfaz.'},
+{id:'O17',q:'¿Cuál de los siguientes síntomas puede indicar que un software necesita rejuvenecimiento?',o:['Nuevo requerimiento de negocio','Aumento en los recursos de la infraestructura tecnológica','Aumento en el número de usuarios','Todas las anteriores','Lentitud progresiva en la ejecución de tareas'],a:[3],e:'El rejuvenecimiento puede ser necesario ante cambios del negocio, crecimiento de demanda o infraestructura y degradación progresiva del desempeño. Todas las situaciones mencionadas pueden ser indicios para evaluar una renovación.'},
+{id:'O18',q:'En un diagrama de actividad, un nodo final de flujo se diferencia de un nodo final de actividad porque:',o:['Ambos terminan la ejecución completa del diagrama.','El nodo final de flujo solo detiene una secuencia de flujo específica, mientras que el nodo final de actividad finaliza toda la actividad','No existe diferencia entre ambos.','El nodo final de flujo se usa solo en diagramas concurrentes.'],a:[1],e:'El final de flujo termina únicamente el flujo que llega a él; el final de actividad termina la actividad completa.'}
+];
+
+const EXTRA=[
+{q:'¿Qué problema resuelve el patrón State?',o:['Objetos cuyo comportamiento cambia según su estado, evitando condicionales extensos','Garantizar una única instancia','Ofrecer una interfaz simplificada a un subsistema','Desacoplar una abstracción de su implementación'],a:[0],e:'State delega el comportamiento variable en objetos que representan estados concretos.'},
+{q:'Elementos de un Singleton correcto (seleccione todos):',multi:true,o:['Constructor privado','Atributo estático que guarda la instancia','Método estático getInstance()','Constructor público para permitir clonar'],a:[0,1,2],e:'El constructor privado restringe la creación; la instancia estática y el método de acceso controlan su obtención.'},
+{q:'Facade impide que un cliente avanzado use directamente las clases del subsistema.',o:['Verdadero','Falso'],a:[1],e:'La fachada simplifica el acceso, pero no necesariamente prohíbe utilizar directamente los componentes del subsistema.'},
+{q:'Reportes (Ventas, Empleados, Inventario) por formatos (PDF, Excel, HTML). Con Bridge se busca:',o:['Una clase por cada combinación','Separar abstracciones e implementaciones en jerarquías independientes','Eliminar todas las interfaces','Usar únicamente herencia múltiple'],a:[1],e:'Bridge separa dos dimensiones de variación y las conecta mediante composición.'},
+{q:'Diferencia clave entre Mediator y Facade:',o:['Mediator coordina comunicación entre colegas; Facade ofrece una interfaz simplificada al subsistema','Son idénticos','Facade centraliza la comunicación entre pares','Mediator solo sirve para un subsistema'],a:[0],e:'Mediator reduce dependencias entre objetos colegas; Facade simplifica el acceso de clientes a un subsistema.'},
+{q:'El Principio de Inversión de Dependencias indica que:',o:['Los módulos de alto nivel dependen de abstracciones, no de detalles','Cada clase debe tener una sola responsabilidad','Las subclases deben sustituir a las clases base','Las interfaces deben ser grandes'],a:[0],e:'DIP invierte la dependencia hacia abstracciones estables.'},
+{q:'El DAO debe devolver directamente un DTO armado para una pantalla.',o:['Verdadero','Falso'],a:[1],e:'El DAO se ocupa de persistencia. La transformación a DTO corresponde a una capa o servicio que prepara los datos para el caso de uso.'},
+{q:'Características de un DTO (seleccione todas):',multi:true,o:['Transporta datos','No contiene lógica de negocio','Puede tener getters y setters','Puede limitar los datos expuestos','Se conecta directamente a la base de datos'],a:[0,1,2,3],e:'DTO transporta datos entre límites del sistema y puede exponer solo los campos necesarios; no es responsable de persistencia.'},
+{q:'Una subclase Pinguino que lanza una excepción al ejecutar Volar() heredado de Ave puede violar:',o:['SRP','OCP','LSP','DIP'],a:[2],e:'LSP exige que una instancia de una subclase pueda sustituir a la clase base sin romper las expectativas del cliente.'},
+{q:'Agregar CPU y RAM al mismo servidor es escalamiento:',o:['Vertical','Horizontal','Elástico','Distribuido'],a:[0],e:'El escalamiento vertical aumenta la capacidad de un único nodo.'},
+{q:'En una red distribuida, la latencia es cero.',o:['Verdadero','Falso'],a:[1],e:'La latencia existe en toda comunicación distribuida y debe considerarse en el diseño.'},
+{q:'En una arquitectura de capas cerradas, la presentación consulta directamente la persistencia. ¿Qué problema aparece?',o:['Rompe el aislamiento de capas y acopla la interfaz a los datos','Mejora el aislamiento','No genera problemas','Aumenta necesariamente la cohesión'],a:[0],e:'Se saltea la capa de negocio y se acopla la presentación a detalles de persistencia.'},
+{q:'Un subsistema se diferencia de un paquete en que:',o:['Además de agrupar, expone comportamiento mediante interfaces','Solo contiene datos','No puede contener clases','Es necesariamente una capa física'],a:[0],e:'Un subsistema encapsula elementos internos y ofrece servicios mediante interfaces.'},
+{q:'En un diagrama de despliegue, las relaciones manifest y deploy vinculan respectivamente:',o:['Artefacto-componente y artefacto-nodo','Nodo-nodo y clase-paquete','Componente-clase y nodo-base de datos','Artefacto-nodo y artefacto-componente'],a:[0],e:'Manifest representa que un artefacto implementa un componente; deploy representa el despliegue de un artefacto en un nodo.'},
+{q:'Verificación rápida y general de que una aplicación arranca y cubre funciones básicas en una nueva versión:',o:['Prueba de humo','Prueba de regresión','Prueba de volumen','Prueba de aceptación'],a:[0],e:'La prueba de humo verifica de manera amplia y superficial que las funciones esenciales estén operativas.'},
+{q:'En un diagrama de estados, ¿cuáles afirmaciones son correctas?',multi:true,o:['Hay un único estado inicial','Puede haber varios estados finales','Una guarda se evalúa cuando ocurre el evento de la transición','Una transición puede interrumpirse arbitrariamente a mitad'],a:[0,1,2],e:'El diagrama tiene un estado inicial; puede tener varios finales. La guarda condiciona el disparo de la transición.'}
+];
+
+const DEV=[
+{q:'Explique el patrón State: intención, participantes y ventajas frente a una solución basada en if/else.',m:'State permite que un objeto modifique su comportamiento cuando cambia su estado interno. El Contexto mantiene una referencia al estado actual y delega en él las operaciones; la interfaz Estado declara el comportamiento; los Estados Concretos implementan las reglas específicas y pueden provocar transiciones. Reduce condicionales, concentra las reglas de cada estado y facilita agregar estados sin modificar extensamente el contexto.'},
+{q:'Describa Singleton, su estructura y dos consideraciones de implementación.',m:'Singleton garantiza una única instancia accesible mediante un punto de acceso controlado. Suele incluir constructor privado, atributo estático que almacena la instancia y método estático getInstance(). Deben considerarse concurrencia al inicializar, ciclo de vida, pruebas y el acoplamiento global que puede introducir.'},
+{q:'Explique Facade: intención, estructura, ventajas y una posible desventaja.',m:'Facade ofrece una interfaz unificada y simple para acceder a un subsistema complejo. El cliente invoca la fachada y esta coordina servicios internos. Reduce el conocimiento que el cliente necesita del subsistema y desacopla su uso. No necesariamente impide el acceso directo a los componentes. Si concentra demasiadas responsabilidades puede convertirse en una clase demasiado grande.'},
+{q:'Explique Bridge y ejemplifique por qué evita una explosión de clases.',m:'Bridge desacopla una abstracción de su implementación para que ambas jerarquías evolucionen independientemente. La abstracción contiene una referencia a una interfaz de implementación y delega en ella. Por ejemplo, tipos de reporte y formatos PDF/Excel/HTML pueden combinarse sin crear una subclase por cada pareja.'},
+{q:'Compare Mediator y Facade indicando intención y relaciones entre participantes.',m:'Mediator centraliza la comunicación entre objetos colegas: cada colega conoce al mediador y se comunica a través de él, reduciendo dependencias directas. Facade ofrece a los clientes una entrada simplificada a un subsistema; los componentes internos no necesitan conocer la fachada. Mediator coordina interacción entre pares; Facade simplifica el acceso.'},
+{q:'Diferencie DAO y DTO. Explique por qué conviene definir DAO mediante una interfaz.',m:'DAO encapsula operaciones de persistencia y separa el acceso a datos de la lógica de negocio. DTO es un objeto simple que transporta datos entre capas o procesos y no debería contener lógica de negocio ni acceder a la base. Una interfaz DAO permite intercambiar implementaciones concretas y facilita pruebas, portabilidad y el principio de inversión de dependencias.'},
+{q:'Explique el principio Abierto/Cerrado con un ejemplo aplicado a una aplicación.',m:'El principio establece que una entidad de software debe estar abierta a extensión y cerrada a modificación. Por ejemplo, una aplicación que calcula descuentos puede definir una interfaz de estrategia; cada nuevo tipo de descuento agrega una implementación sin modificar el código estable que utiliza la abstracción.'},
+{q:'Diferencie capa lógica y capa física; luego diferencie paquete y subsistema.',m:'Una capa lógica agrupa responsabilidades desde el punto de vista conceptual, como presentación, negocio y datos. Una capa física o tier representa la distribución en nodos o procesos de ejecución. Un paquete agrupa elementos relacionados; un subsistema además encapsula comportamiento y ofrece servicios mediante interfaces.'},
+{q:'Compare arquitectura en capas y microservicios: indique una ventaja y una desventaja de cada enfoque.',m:'La arquitectura en capas separa responsabilidades y suele ser más simple de desarrollar, probar y desplegar como aplicación única; como contrapartida, puede escalarse y desplegarse como un bloque. Microservicios permiten despliegue y escalado independiente por servicio, pero aumentan la complejidad operativa, la comunicación distribuida, la observabilidad y la gestión de consistencia.'},
+{q:'Diferencie pruebas de caja negra y caja blanca. Explique partición de equivalencia y valores límite.',m:'Caja negra deriva casos de prueba de requisitos y comportamiento observable sin examinar la estructura interna. Caja blanca diseña pruebas considerando código, caminos, condiciones o cobertura. Partición de equivalencia divide entradas en clases que deberían comportarse de forma similar y prueba representantes. Valores límite prueba los extremos y valores inmediatamente próximos, donde suelen aparecer defectos.'},
+{q:'Explique la diferencia entre pruebas unitarias, de integración, de sistema y de aceptación.',m:'Las unitarias verifican unidades aisladas; las de integración comprueban la interacción entre módulos; las de sistema evalúan el sistema completo frente a sus requisitos; las de aceptación determinan si satisface las necesidades y criterios acordados con el usuario o cliente.'},
+{q:'¿Qué es una línea base de configuración y cómo se modifica de manera controlada?',m:'Es una versión aprobada de uno o más ítems de configuración que sirve como referencia para el desarrollo y las auditorías. No es inmutable: las modificaciones deben solicitarse, evaluarse, aprobarse por el mecanismo de control de cambios, implementarse y registrarse para mantener trazabilidad.'}
+];
+
+const PAT=[
+{n:'State',t:'Un Pedido pasa por RECIBIDO, EN_PREPARACION, LISTO y ENTREGADO. Puede cancelarse antes de quedar LISTO; no puede cancelarse una vez listo, entregado o cancelado.',kind:'state',d:'Contexto: Pedido. Interfaz: EstadoPedido. Estados concretos: PedidoRecibido, PedidoEnPreparacion, PedidoListo, PedidoEntregado y PedidoCancelado. Pedido mantiene una referencia navegable a EstadoPedido y delega en ella las operaciones variables.',m:'Interfaz EstadoPedido\\n    +avanzarEstado(pedido: Pedido): void\\n    +cancelar(pedido: Pedido): void\\nFinInterfaz\\n\\nClase Pedido\\n    -estado: EstadoPedido\\n    +avanzarEstado(): void\\n        estado.avanzarEstado(this)\\n    FinMetodo\\n    +cancelar(): void\\n        estado.cancelar(this)\\n    FinMetodo\\n    +setEstado(nuevo: EstadoPedido): void\\nFinClase\\n\\nClases PedidoRecibido, PedidoEnPreparacion, PedidoListo, PedidoEntregado y PedidoCancelado implementan EstadoPedido. Cada una permite solo las transiciones válidas; las operaciones no válidas rechazan la solicitud.'},
+{n:'Strategy',t:'Un sistema calcula el costo de envío según el medio elegido: terrestre, aéreo o retiro en sucursal. El cliente puede cambiar la estrategia en tiempo de ejecución.',kind:'strategy',d:'Contexto: CalculadoraEnvio. Interfaz: EstrategiaEnvio. Estrategias concretas: EnvioTerrestre, EnvioAereo y RetiroSucursal. El contexto posee una referencia intercambiable a la estrategia.',m:'Interfaz EstrategiaEnvio\\n    +calcularCosto(pedido: Pedido): Decimal\\nFinInterfaz\\n\\nClase CalculadoraEnvio\\n    -estrategia: EstrategiaEnvio\\n    +setEstrategia(nueva: EstrategiaEnvio): void\\n        estrategia = nueva\\n    FinMetodo\\n    +calcular(pedido: Pedido): Decimal\\n        Retornar estrategia.calcularCosto(pedido)\\n    FinMetodo\\nFinClase\\n\\nClases EnvioTerrestre, EnvioAereo y RetiroSucursal implementan EstrategiaEnvio con su propia regla de cálculo. El contexto depende de la interfaz, no de clases concretas.'},
+{n:'Factory Method',t:'Una aplicación genera documentos PDF o HTML. El cliente solicita un documento sin conocer la clase concreta que se instancia.',kind:'factory',d:'Creador abstracto: GeneradorDocumento. Método fábrica: crearDocumento(). Creadores concretos: GeneradorPDF y GeneradorHTML. Producto: Documento. Productos concretos: DocumentoPDF y DocumentoHTML.',m:'Interfaz Documento\\n    +generar(): void\\nFinInterfaz\\n\\nClase abstracta GeneradorDocumento\\n    +crearDocumento(): Documento {abstracto}\\n    +exportar(): void\\n        doc: Documento = crearDocumento()\\n        doc.generar()\\n    FinMetodo\\nFinClase\\n\\nClase GeneradorPDF extiende GeneradorDocumento\\n    +crearDocumento(): Documento\\n        Retornar nuevo DocumentoPDF()\\n    FinMetodo\\nFinClase\\n\\nClase GeneradorHTML extiende GeneradorDocumento\\n    +crearDocumento(): Documento\\n        Retornar nuevo DocumentoHTML()\\n    FinMetodo\\nFinClase\\n\\nDocumentoPDF y DocumentoHTML implementan Documento. El creador concreto decide el producto; el cliente trabaja con las abstracciones.'},
+{n:'Observer',t:'Un servicio de seguimiento de pedidos debe notificar a los usuarios suscritos cuando cambia el estado de un pedido, sin acoplar el pedido a cada canal de notificación.',kind:'observer',d:'Sujeto concreto: PedidoObservable. Interfaz: Observador. Observadores concretos: NotificadorEmail y NotificadorSMS. El sujeto mantiene una colección de observadores y notifica sus actualizaciones.',m:'Interfaz Observador\\n    +actualizar(pedido: PedidoObservable): void\\nFinInterfaz\\n\\nClase PedidoObservable\\n    -observadores: Lista<Observador>\\n    -estado: EstadoPedido\\n    +suscribir(o: Observador): void\\n    +desuscribir(o: Observador): void\\n    +cambiarEstado(nuevo: EstadoPedido): void\\n        estado = nuevo\\n        notificar()\\n    FinMetodo\\n    -notificar(): void\\nFinClase\\n\\nClases NotificadorEmail y NotificadorSMS implementan Observador y definen actualizar(pedido). Los observadores pueden existir independientemente del sujeto; la suscripción se modela como agregación.'},
+{n:'DAO + Factory',t:'Una aplicación debe soportar dos motores de base de datos. La lógica de negocio debe trabajar contra una abstracción de persistencia.',kind:'dao',d:'GestorProducto depende de IProductoDAO. ProductoDAOSQL y ProductoDAOMemoria implementan IProductoDAO. DAOFactory crea y entrega la implementación seleccionada. Producto es la entidad persistida.',m:'Interfaz IProductoDAO\\n    +buscarPorId(id: Id): Producto\\n    +guardar(producto: Producto): void\\nFinInterfaz\\n\\nClase GestorProducto\\n    -dao: IProductoDAO\\n    +GestorProducto(dao: IProductoDAO)\\n    +obtenerProducto(id: Id): Producto\\n        Retornar dao.buscarPorId(id)\\n    FinMetodo\\nFinClase\\n\\nClase DAOFactory\\n    +crearProductoDAO(tipo: TipoDAO): IProductoDAO\\n        Si tipo = SQL retornar nuevo ProductoDAOSQL()\\n        Si tipo = MEMORIA retornar nuevo ProductoDAOMemoria()\\n    FinMetodo\\nFinClase\\n\\nClases ProductoDAOSQL y ProductoDAOMemoria implementan IProductoDAO y encapsulan las operaciones de persistencia. GestorProducto no conoce sus clases concretas.'}
+];
+
+const T=50*60,CFG={mc:9,dev:3,pat:1},PTS={mc:6,dev:8,pat:22};
+let S,tmr;
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function selectMC(){
+  // Cada modelo incluye al menos cuatro preguntas del parcial original y completa el cupo con el banco general.
+  const required=shuffle(ORIGINAL).slice(0,4);
+  const pool=shuffle([...ORIGINAL,...EXTRA].filter(q=>!required.some(r=>r.id===q.id)));
+  return shuffle([...required,...pool.slice(0,CFG.mc-4)]).map(x=>({k:'mc',x}));
+}
+function start(){
+  clearInterval(tmr);
+  const qs=[...selectMC(),...shuffle(DEV).slice(0,CFG.dev).map(x=>({k:'dev',x})),...shuffle(PAT).slice(0,CFG.pat).map(x=>({k:'pat',x}))];
+  S={qs,i:0,ans:qs.map(()=>null),t:T,done:false};
+  tick();render();
+  tmr=setInterval(()=>{if(!S||S.done)return;S.t=Math.max(0,S.t-1);tick();if(S.t<=0)finish(true)},1000);
+}
+function tick(){const e=document.getElementById('timer');if(!e||!S)return;e.textContent=String(Math.floor(S.t/60)).padStart(2,'0')+':'+String(S.t%60).padStart(2,'0');e.classList.toggle('low',S.t<=300)}
+function pick(j){if(S.done)return;const q=S.qs[S.i].x;if(q.multi){const a=S.ans[S.i]||[];S.ans[S.i]=a.includes(j)?a.filter(v=>v!==j):[...a,j]}else S.ans[S.i]=[j];render()}
+function txt(v){if(S.done)return;S.ans[S.i]=v;const nav=document.querySelectorAll('.nav button')[S.i];if(nav)nav.classList.toggle('done',v.trim().length>0)}
+function go(n){if(S.done)return;S.i=Math.max(0,Math.min(S.qs.length-1,n));render()}
+function answered(i){const a=S.ans[i];return S.qs[i].k==='mc'?(Array.isArray(a)&&a.length>0):(typeof a==='string'&&a.trim().length>0)}
+function formatCode(value){
+ const text=String(value??'').replace(/\\n/g,'\n');
+ return `<pre class="model-code"><code>${esc(text)}</code></pre>`;
+}
+function diagram(kind){
+ const id=`uml-${kind}`;
+ const box=(x,y,w,h,title,attributes=[],methods=[],abstract=false)=>`<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="7" fill="#FFFFFF" stroke="#24527A" stroke-width="2"/><rect x="${x}" y="${y}" width="${w}" height="28" rx="7" fill="#DCEBFA"/><text x="${x+w/2}" y="${y+19}" text-anchor="middle" font-size="13" font-weight="700" font-style="${abstract?'italic':'normal'}" fill="#12304A">${esc(title)}</text><line x1="${x}" y1="${y+28}" x2="${x+w}" y2="${y+28}" stroke="#24527A"/>${attributes.map((v,i)=>`<text x="${x+8}" y="${y+44+i*14}" font-size="10.5" fill="#334155">${esc(v)}</text>`).join('')}<line x1="${x}" y1="${y+42+attributes.length*14}" x2="${x+w}" y2="${y+42+attributes.length*14}" stroke="#24527A"/>${methods.map((v,i)=>`<text x="${x+8}" y="${y+58+attributes.length*14+i*14}" font-size="10.5" fill="#334155">${esc(v)}</text>`).join('')}</g>`;
+ const label=(x,y,text)=>`<text x="${x}" y="${y}" text-anchor="middle" font-size="10" fill="#334155">${esc(text)}</text>`;
+ const relation=(x1,y1,x2,y2,text='',type='association')=>{
+   const dash=type==='realization'||type==='dependency'?' stroke-dasharray="7 5"':'';
+   const marker=type==='inheritance'||type==='realization'?' marker-end="url(#${id}-triangle)"':type==='dependency'?' marker-end="url(#${id}-open-arrow)"':type==='association'?' marker-end="url(#${id}-open-arrow)"':'';
+   const diamond=type==='aggregation'?`<path d="M${x1} ${y1} l8 -6 l8 6 l-8 6 z" fill="#FFFFFF" stroke="#24527A" stroke-width="2"/>`:type==='composition'?`<path d="M${x1} ${y1} l8 -6 l8 6 l-8 6 z" fill="#24527A" stroke="#24527A" stroke-width="2"/>`:'';
+   return `${diamond}<path d="M${x1+16*(type==='aggregation'||type==='composition'?1:0)} ${y1} L${x2} ${y2}" stroke="#24527A" stroke-width="2" fill="none"${dash}${marker}/>${text?label((x1+x2)/2,(y1+y2)/2-7,text):''}`;
+ };
+ let content='';
+ if(kind==='state'){
+   content=box(300,20,240,100,'Pedido',['- estado: EstadoPedido'],['+avanzarEstado(): void','+cancelar(): void','+setEstado(s: EstadoPedido): void'])+
+     box(300,190,240,86,'<<interface>> EstadoPedido',[],['+avanzarEstado(p: Pedido): void','+cancelar(p: Pedido): void'])+
+     box(20,370,190,78,'PedidoRecibido',[],['+avanzarEstado(p): void','+cancelar(p): void'])+box(235,370,190,78,'PedidoEnPreparacion',[],['+avanzarEstado(p): void','+cancelar(p): void'])+box(450,370,190,78,'PedidoListo',[],['+avanzarEstado(p): void','+cancelar(p): void'])+box(665,370,190,78,'PedidoEntregado',[],['+avanzarEstado(p): void','+cancelar(p): void'])+box(450,480,190,78,'PedidoCancelado',[],['+avanzarEstado(p): void','+cancelar(p): void'])+
+     relation(420,120,420,190,'estado 1','association')+relation(115,370,390,276,'','realization')+relation(330,370,410,276,'','realization')+relation(545,370,450,276,'','realization')+relation(760,370,490,276,'','realization')+relation(545,480,470,276,'','realization');
+ } else if(kind==='strategy'){
+   content=box(300,20,240,100,'CalculadoraEnvio',['- estrategia: EstrategiaEnvio'],['+setEstrategia(e: EstrategiaEnvio): void','+calcular(p: Pedido): Decimal'])+
+     box(300,190,240,86,'<<interface>> EstrategiaEnvio',[],['+calcularCosto(p: Pedido): Decimal'])+
+     box(30,380,200,78,'EnvioTerrestre',[],['+calcularCosto(p): Decimal'])+box(250,380,200,78,'EnvioAereo',[],['+calcularCosto(p): Decimal'])+box(470,380,200,78,'RetiroSucursal',[],['+calcularCosto(p): Decimal'])+
+     relation(420,120,420,190,'estrategia 1','association')+relation(130,380,390,276,'','realization')+relation(350,380,420,276,'','realization')+relation(570,380,450,276,'','realization');
+ } else if(kind==='factory'){
+   content=box(30,20,270,120,'GeneradorDocumento',[],['+crearDocumento(): Documento {abstracto}','+exportar(): void'],true)+box(590,20,270,90,'DocumentoPDF',[],['+generar(): void'])+
+     box(30,230,270,90,'GeneradorPDF',[],['+crearDocumento(): Documento'])+box(330,230,270,90,'GeneradorHTML',[],['+crearDocumento(): Documento'])+box(590,230,270,90,'DocumentoHTML',[],['+generar(): void'])+
+     box(300,430,240,86,'<<interface>> Documento',[],['+generar(): void'])+
+     relation(165,230,165,140,'','inheritance')+relation(465,230,230,140,'','inheritance')+relation(165,320,380,430,'crea','dependency')+relation(465,320,460,430,'crea','dependency')+relation(725,230,470,516,'','realization')+relation(725,110,430,430,'','realization');
+ } else if(kind==='observer'){
+   content=box(300,20,270,120,'PedidoObservable',['- observadores: Lista<Observador>','- estado: EstadoPedido'],['+suscribir(o: Observador): void','+desuscribir(o: Observador): void','+cambiarEstado(e: EstadoPedido): void','-notificar(): void'])+
+     box(300,230,270,86,'<<interface>> Observador',[],['+actualizar(p: PedidoObservable): void'])+
+     box(45,430,220,86,'NotificadorEmail',[],['+actualizar(p): void'])+box(605,430,220,86,'NotificadorSMS',[],['+actualizar(p): void'])+
+     relation(435,140,435,230,'observadores 0..*','aggregation')+relation(155,430,390,316,'','realization')+relation(715,430,480,316,'','realization');
+ } else if(kind==='dao'){
+   content=box(30,20,250,105,'GestorProducto',['- dao: IProductoDAO'],['+GestorProducto(d: IProductoDAO)','+obtenerProducto(id: Id): Producto'])+
+     box(330,190,260,90,'<<interface>> IProductoDAO',[],['+buscarPorId(id: Id): Producto','+guardar(p: Producto): void'])+
+     box(20,390,230,86,'ProductoDAOSQL',[],['+buscarPorId(id): Producto','+guardar(p): void'])+box(300,390,230,86,'ProductoDAOMemoria',[],['+buscarPorId(id): Producto','+guardar(p): void'])+
+     box(650,20,220,105,'DAOFactory',[],['+crearProductoDAO(t: TipoDAO): IProductoDAO'])+box(650,250,220,86,'Producto',[],['-id: Id'])+
+     relation(155,125,420,190,'dao','dependency')+relation(135,390,410,280,'','realization')+relation(415,390,500,280,'','realization')+relation(760,125,560,190,'crea','dependency')+relation(760,250,500,280,'retorna','dependency');
+ }
+ return `<div class="diagram"><svg viewBox="0 0 900 590" role="img" aria-label="Diagrama de clases UML del patrón ${esc(kind)}"><defs><marker id="${id}-triangle" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L10,6 L0,12 z" fill="#FFFFFF" stroke="#24527A" stroke-width="1.5"/></marker><marker id="${id}-open-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L9,5 L0,10" fill="none" stroke="#24527A" stroke-width="1.5"/></marker></defs>${content}</svg></div>`;
+}
+function render(){
+ const q=S.qs[S.i],a=S.ans[S.i],done=S.qs.filter((_,i)=>answered(i)).length;
+ let h=`<div class="progress"><div style="width:${done/S.qs.length*100}%"></div></div><div class="nav">${S.qs.map((_,i)=>`<button class="${i===S.i?'cur ':''}${answered(i)?'done':''}" onclick="go(${i})" aria-label="Ir a pregunta ${i+1}">${i+1}</button>`).join('')}</div><div class="card">`;
+ const lab={mc:'Opción múltiple',dev:'Desarrollo teórico',pat:'Diagrama UML y pseudocódigo'};
+ h+=`<span class="tag">${lab[q.k]} · ${PTS[q.k]} puntos</span>`;
+ if(q.k==='mc'){
+   h+=`<h2>${esc(q.x.q)}</h2>${q.x.multi?'<div class="muted" style="margin-bottom:8px">Seleccione todas las opciones correctas.</div>':''}`;
+   h+=q.x.o.map((o,j)=>`<button class="opt ${a&&a.includes(j)?'sel':''}" onclick="pick(${j})"><b>${String.fromCharCode(97+j)}.</b><span>${esc(o)}</span></button>`).join('');
+ }else if(q.k==='dev'){
+   h+=`<h2>${esc(q.x.q)}</h2><textarea rows="8" placeholder="Escriba su respuesta..." oninput="txt(this.value)">${esc(a||'')}</textarea><div class="muted" style="margin-top:6px">La respuesta se considera completada al ingresar texto. Compare su desarrollo con el modelo.</div><div class="model"><strong>Respuesta modelo para autoevaluación</strong>${formatCode(q.x.m)}</div>`;
+ }else{
+   h+=`<h2>${esc(q.x.t)}</h2><div class="muted">Diagrama de clases UML del patrón ${esc(q.x.n)}</div>${diagram(q.x.kind)}<div class="muted">Estructura y relaciones principales</div>${formatCode(q.x.d)}<div class="question-block"><b>Consignas</b><ol><li>Identifique el rol de cada clase o interfaz y justifique las relaciones de herencia, implementación, asociación o dependencia que aparecen.</li><li>Explique qué responsabilidad tiene el contexto y cómo colaboran los participantes del patrón.</li><li>Redacte el pseudocódigo de las operaciones principales respetando el formato de la cátedra (Clase, Atributos, Métodos, FinMetodo y FinClase).</li></ol></div><textarea rows="12" placeholder="Clase NombreClase&#10;    Atributos: ...&#10;    Métodos: ...&#10;FinClase" oninput="txt(this.value)">${esc(a||'')}</textarea><div class="muted" style="margin-top:6px">El texto se considera completado para la autoevaluación; revise el modelo.</div><div class="model"><strong>Respuesta modelo de pseudocódigo y diseño</strong>${formatCode(q.x.m)}</div>`;
+ }
+ h+=`</div><div class="row"><button class="b s" ${S.i?'':'disabled'} onclick="go(S.i-1)">Anterior</button><span class="muted">${done}/${S.qs.length} respondidas</span>${S.i<S.qs.length-1?'<button class="b s" onclick="go(S.i+1)">Siguiente</button>':'<button class="b" onclick="finish()">Finalizar examen</button>'}</div>`;
+ document.getElementById('app').innerHTML=h;
+}
+function scoreMC(q,a){const correct=new Set(q.a),chosen=new Set(a||[]);if(chosen.size===0)return 0;let right=0,wrong=0;chosen.forEach(v=>correct.has(v)?right++:wrong++);return Math.max(0,Math.min(1,(right-wrong)/correct.size))}
+function finish(auto=false){
+ if(!S||S.done)return;
+ if(!auto){const n=S.qs.filter((_,i)=>!answered(i)).length;if(n&&!confirm(`Quedan ${n} preguntas sin responder. ¿Finalizar igualmente?`))return}
+ clearInterval(tmr);S.done=true;
+ let total=0,okc=0,bad=0,blank=0;
+ const rev=S.qs.map((q,i)=>{
+  const a=S.ans[i];let r=0,body='';
+  if(q.k==='mc'){
+   r=scoreMC(q.x,a);if(!answered(i))blank++;else if(r===1)okc++;else bad++;
+   body=`<h2>${i+1}. ${esc(q.x.q)}</h2>`+q.x.o.map((o,j)=>{const c=q.x.a.includes(j),s=a&&a.includes(j);return `<div class="opt ${c?'right':s?'wrong':''}"><b>${String.fromCharCode(97+j)}.</b><span>${esc(o)}${s?' (seleccionada)':''}</span></div>`}).join('')+`<div class="hint"><b>Fundamento:</b> ${esc(q.x.e)}</div>`;
+  }else{
+   r=answered(i)?1:0;if(r)okc++;else blank++;
+   body=`<h2>${i+1}. ${esc(q.k==='dev'?q.x.q:q.x.t)}</h2>${q.k==='pat'?diagram(q.x.kind):''}<div class="muted">Su respuesta:</div>${formatCode(a||'(sin respuesta)')}<div class="model"><strong>Respuesta modelo para autoevaluación</strong>${formatCode(q.x.m)}</div>`;
+  }
+  const p=Math.round(r*PTS[q.k]*10)/10;total+=p;
+  return `<div class="card"><div class="row"><span class="tag">${q.k==='mc'?'Opción múltiple':q.k==='dev'?'Desarrollo':'Patrón '+esc(q.x.n)}</span><b style="color:${r===1?'var(--ok)':r>0?'var(--warn)':'var(--bad)'}">${p}/${PTS[q.k]}</b></div>${body}</div>`;
+ });
+ const max=S.qs.reduce((s,q)=>s+PTS[q.k],0),nota=Math.round(total/max*100),pass=nota>=60;
+ document.getElementById('app').innerHTML=`<div class="card" style="text-align:center;border-color:${pass?'var(--ok)':'var(--bad)'}">${auto?'<div class="hint">El tiempo se agotó. El examen se envió automáticamente.</div>':''}<div class="muted">Nota final</div><div class="big" style="color:${pass?'var(--ok)':'var(--bad)'}">${nota}<small style="font-size:22px">/100</small></div><div style="font-size:18px;font-weight:700;color:${pass?'var(--ok)':'var(--bad)'}">${pass?'APROBADO':'A REFORZAR'}</div><div class="row" style="justify-content:center;gap:24px;margin:14px 0"><span>Aciertos/completadas: <b>${okc}</b></span><span>Incorrectas: <b>${bad}</b></span><span>Sin responder: <b>${blank}</b></span></div><div class="muted">Las respuestas de desarrollo y pseudocódigo se consideran completadas por intento y no reciben evaluación semántica automática. Utilice las respuestas modelo para autoevaluarse.</div><button class="b" style="margin-top:14px" onclick="start()">Nuevo simulacro</button></div>${rev.join('')}`;
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+start();
+</script>
+</body>
+</html>
