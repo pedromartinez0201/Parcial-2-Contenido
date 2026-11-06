@@ -1,0 +1,41 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 13
+skinparam backgroundColor #FFFFFF
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCEBFA
+  BorderColor #24527A
+  ArrowColor #24527A
+  ArrowFontColor #12304A
+  FontColor #12304A
+  AttributeFontColor #1E293B
+}
+hide empty members
+skinparam nodesep 45
+skinparam ranksep 70
+class CalculadoraEnvio {
+  - estrategia: EstrategiaEnvio
+  + setEstrategia(nueva: EstrategiaEnvio): void
+  + calcular(pedido: Pedido): Decimal
+}
+interface EstrategiaEnvio <<interface>> {
+  + calcularCosto(pedido: Pedido): Decimal
+}
+class EnvioTerrestre {
+  + calcularCosto(pedido: Pedido): Decimal
+}
+class EnvioAereo {
+  + calcularCosto(pedido: Pedido): Decimal
+}
+class RetiroSucursal {
+  + calcularCosto(pedido: Pedido): Decimal
+}
+CalculadoraEnvio --> "1" EstrategiaEnvio : estrategia
+EstrategiaEnvio <|.. EnvioTerrestre
+EstrategiaEnvio <|.. EnvioAereo
+EstrategiaEnvio <|.. RetiroSucursal
+@enduml

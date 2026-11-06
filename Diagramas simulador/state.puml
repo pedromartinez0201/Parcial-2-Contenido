@@ -1,0 +1,57 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 13
+skinparam backgroundColor #FFFFFF
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCEBFA
+  BorderColor #24527A
+  ArrowColor #24527A
+  ArrowFontColor #12304A
+  FontColor #12304A
+  AttributeFontColor #1E293B
+}
+left to right direction
+hide empty members
+skinparam nodesep 45
+skinparam ranksep 70
+class Pedido {
+  - estado: EstadoPedido
+  + avanzarEstado(): void
+  + cancelar(): void
+  + setEstado(nuevo: EstadoPedido): void
+}
+interface EstadoPedido <<interface>> {
+  + avanzarEstado(pedido: Pedido): void
+  + cancelar(pedido: Pedido): void
+}
+class PedidoRecibido {
+  + avanzarEstado(pedido: Pedido): void
+  + cancelar(pedido: Pedido): void
+}
+class PedidoEnPreparacion {
+  + avanzarEstado(pedido: Pedido): void
+  + cancelar(pedido: Pedido): void
+}
+class PedidoListo {
+  + avanzarEstado(pedido: Pedido): void
+  + cancelar(pedido: Pedido): void
+}
+class PedidoEntregado {
+  + avanzarEstado(pedido: Pedido): void
+  + cancelar(pedido: Pedido): void
+}
+class PedidoCancelado {
+  + avanzarEstado(pedido: Pedido): void
+  + cancelar(pedido: Pedido): void
+}
+Pedido --> "1" EstadoPedido : estado
+EstadoPedido <|.. PedidoRecibido
+EstadoPedido <|.. PedidoEnPreparacion
+EstadoPedido <|.. PedidoListo
+EstadoPedido <|.. PedidoEntregado
+EstadoPedido <|.. PedidoCancelado
+@enduml

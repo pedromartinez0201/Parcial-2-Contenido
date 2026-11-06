@@ -1,0 +1,49 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 13
+skinparam backgroundColor #FFFFFF
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCEBFA
+  BorderColor #24527A
+  ArrowColor #24527A
+  ArrowFontColor #12304A
+  FontColor #12304A
+  AttributeFontColor #1E293B
+}
+hide empty members
+skinparam nodesep 45
+skinparam ranksep 70
+class GestorProducto {
+  - dao: IProductoDAO
+  + GestorProducto(dao: IProductoDAO)
+  + obtenerProducto(id: Id): Producto
+}
+interface IProductoDAO <<interface>> {
+  + buscarPorId(id: Id): Producto
+  + guardar(producto: Producto): void
+}
+class ProductoDAOSQL {
+  + buscarPorId(id: Id): Producto
+  + guardar(producto: Producto): void
+}
+class ProductoDAOMemoria {
+  + buscarPorId(id: Id): Producto
+  + guardar(producto: Producto): void
+}
+class DAOFactory {
+  + crearProductoDAO(tipo: TipoDAO): IProductoDAO
+}
+class Producto {
+  - id: Id
+}
+GestorProducto --> "1" IProductoDAO : dao
+IProductoDAO <|.. ProductoDAOSQL
+IProductoDAO <|.. ProductoDAOMemoria
+IProductoDAO ..> Producto : <<usa>>
+ProductoDAOSQL <.. DAOFactory : <<crea>>
+ProductoDAOMemoria <.. DAOFactory : <<crea>>
+@enduml
