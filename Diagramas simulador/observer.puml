@@ -1,0 +1,40 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 13
+skinparam backgroundColor #FFFFFF
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCEBFA
+  BorderColor #24527A
+  ArrowColor #24527A
+  ArrowFontColor #12304A
+  FontColor #12304A
+  AttributeFontColor #1E293B
+}
+hide empty members
+skinparam nodesep 45
+skinparam ranksep 70
+class PedidoObservable {
+  - observadores: Lista<Observador>
+  - estado: EstadoPedido
+  + suscribir(o: Observador): void
+  + desuscribir(o: Observador): void
+  + cambiarEstado(nuevo: EstadoPedido): void
+  - notificar(): void
+}
+interface Observador <<interface>> {
+  + actualizar(pedido: PedidoObservable): void
+}
+class NotificadorEmail {
+  + actualizar(pedido: PedidoObservable): void
+}
+class NotificadorSMS {
+  + actualizar(pedido: PedidoObservable): void
+}
+PedidoObservable o--> "0..*" Observador : observadores
+Observador <|.. NotificadorEmail
+Observador <|.. NotificadorSMS
+@enduml
