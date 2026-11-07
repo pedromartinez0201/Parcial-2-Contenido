@@ -7,7 +7,7 @@ tags:
 ---
 # Unidad 4 — Modelo de Diseño y Diagramas UML
 
-← Volver a [[00 - Índice Parcial 2]]
+← Volver a [[00 - Índice Parcial 2]] · Versión compacta solo teórica → [[U4 - Índice (V2)]]
 
 > [!info] Programa oficial de la Unidad 4 (`Contenido Parcial 2.png`)
 > **Temas:** Máquina de estados · Diagrama de componentes y despliegue · Diagrama de secuencias.
