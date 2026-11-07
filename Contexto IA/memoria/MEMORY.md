@@ -1,0 +1,3 @@
+- [Diseño de Sistemas Parcial 2](diseno-sistemas-parcial2.md) — estructura de resúmenes U5/U6 en Obsidian y preferencias de estudio
+- [Diagramas en Excalidraw como PNG](diagramas-excalidraw-png.md) — lo que Mermaid no puede dibujar va como PNG de Excalidraw en Assets/
+- [TP Diseño Grupo 10](tp-diseno-grupo10.md) — carpeta del TP, entregas hechas, etapa 7 implementar CU020 y CU028
