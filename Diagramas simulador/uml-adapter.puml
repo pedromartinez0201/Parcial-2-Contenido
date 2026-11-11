@@ -1,0 +1,39 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 13
+skinparam backgroundColor #FFFFFF
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCEBFA
+  BorderColor #24527A
+  ArrowColor #24527A
+  ArrowFontColor #12304A
+  FontColor #12304A
+  AttributeFontColor #1E293B
+}
+hide empty members
+skinparam nodesep 50
+skinparam ranksep 60
+class Aplicacion {
+  - logger: Logger
+  + Aplicacion(logger: Logger)
+  + procesar(): void
+}
+interface Logger <<interface>> {
+  + registrar(mensaje: String): void
+}
+class LoggerAdapter {
+  - externo: LibreriaLoggerExterna
+  + LoggerAdapter(externo: LibreriaLoggerExterna)
+  + registrar(mensaje: String): void
+}
+class LibreriaLoggerExterna {
+  + writing(level: String, text: String): void
+}
+Aplicacion --> "1" Logger : logger
+Logger <|.. LoggerAdapter
+LoggerAdapter --> "1" LibreriaLoggerExterna : externo
+@enduml

@@ -1,0 +1,55 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 13
+skinparam backgroundColor #FFFFFF
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCEBFA
+  BorderColor #24527A
+  ArrowColor #24527A
+  ArrowFontColor #12304A
+  FontColor #12304A
+  AttributeFontColor #1E293B
+}
+hide empty members
+skinparam nodesep 50
+skinparam ranksep 60
+class Cliente {
+  - cuit: String
+  - razonSocial: String
+}
+class Factura {
+  - numero: int
+  - fecha: Date
+  - tipo: TipoFactura
+  + agregarLinea(p: Producto, cantidad: int): void
+  + calcularTotal(): double
+  + imprimir(): void
+}
+class LineaFactura {
+  - cantidad: int
+  - precioUnitario: double
+  + subtotal(): double
+}
+class Producto {
+  - codigo: String
+  - descripcion: String
+  - precio: double
+}
+enum TipoFactura <<enum>> {
+  A
+  B
+  C
+}
+abstract class Comprobante <<abstract>> {
+  # fechaEmision: Date
+  + {abstract} imprimir(): void
+}
+Comprobante <|-- Factura
+Factura "0..*" --> "1" Cliente : cliente
+Factura "1" *--> "1..*" LineaFactura : lineas
+LineaFactura "0..*" --> "1" Producto : producto
+@enduml

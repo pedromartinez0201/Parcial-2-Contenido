@@ -1,0 +1,44 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 13
+skinparam backgroundColor #FFFFFF
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCEBFA
+  BorderColor #24527A
+  ArrowColor #24527A
+  ArrowFontColor #12304A
+  FontColor #12304A
+  AttributeFontColor #1E293B
+}
+hide empty members
+skinparam nodesep 50
+skinparam ranksep 60
+class Envio {
+  - codigo: String
+  - estado: String
+  - observadores: Lista<Observador>
+  + suscribir(o: Observador): void
+  + desuscribir(o: Observador): void
+  + cambiarEstado(nuevo: String): void
+  - notificar(): void
+  + getEstado(): String
+}
+interface Observador <<interface>> {
+  + actualizar(e: Envio): void
+}
+class NotificadorEmail {
+  - email: String
+  + actualizar(e: Envio): void
+}
+class NotificadorSMS {
+  - telefono: String
+  + actualizar(e: Envio): void
+}
+Envio o--> "0..*" Observador : observadores
+Observador <|.. NotificadorEmail
+Observador <|.. NotificadorSMS
+@enduml

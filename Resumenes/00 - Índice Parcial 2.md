@@ -14,7 +14,7 @@ tags:
 
 - [[U4 - Índice|Unidad 4 — Modelo de Diseño y Diagramas UML]]: ✅ completa · versión compacta solo teórica → [[U4 - Índice (V2)]]
 - [[U5 - Índice|Unidad 5 — Patrones, SOLID y Arquitectura]]: ✅ completa · versión compacta solo teórica → [[U5 - Índice (V2)]]
-- [[U6 - Índice|Unidad 6 — Pruebas e Implementación]]: ⏳ pendiente
+- [[U6 - Índice|Unidad 6 — Pruebas e Implementación]]: ✅ completa · versión compacta solo teórica → [[U6 - Índice (V2)]]
 
 > [!info] Programa oficial
 > Según `Parcial 2 - Contenido/Tadeo/Contenido Parcial 2.png`, el Parcial 2 incluye las **Unidades 4, 5 y 6**.

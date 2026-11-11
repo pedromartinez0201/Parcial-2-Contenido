@@ -1,0 +1,45 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 13
+skinparam backgroundColor #FFFFFF
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCEBFA
+  BorderColor #24527A
+  ArrowColor #24527A
+  ArrowFontColor #12304A
+  FontColor #12304A
+  AttributeFontColor #1E293B
+}
+hide empty members
+skinparam nodesep 50
+skinparam ranksep 60
+class Pedido {
+  - id: int
+  - estado: EstadoPedido
+  + Pedido(id: int)
+  + avanzar(): void
+  + cancelar(): void
+  + obtenerEstado(): String
+  + setEstado(nuevo: EstadoPedido): void
+}
+interface EstadoPedido <<interface>> {
+  + avanzar(p: Pedido): void
+  + cancelar(p: Pedido): void
+  + nombre(): String
+}
+class Recibido
+class EnPreparacion
+class Listo
+class Entregado
+class Cancelado
+Pedido --> "1" EstadoPedido : estado
+EstadoPedido <|.. Recibido
+EstadoPedido <|.. EnPreparacion
+EstadoPedido <|.. Listo
+EstadoPedido <|.. Entregado
+EstadoPedido <|.. Cancelado
+@enduml

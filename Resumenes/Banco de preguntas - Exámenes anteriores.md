@@ -26,7 +26,7 @@ fuente: "Parcial 2 - Contenido/Exámenes/"
 | Tema | Veces que aparece | Unidad actual | Prioridad |
 | --- | --- | --- | --- |
 | Pruebas: plan, tipos, terminación, técnicas | 10+ | [[U6.1 - Pruebas]] / [[U6.2 - Tipos de Pruebas]] | 🔴 Alta |
-| Debugging e inspecciones | 5 | [[U6.1 - Pruebas]] (verificar) | 🔴 Alta |
+| Debugging e inspecciones | 5 | [[U6.1 - Pruebas]] (sale del resumen 2016, no de las presentaciones) | 🔴 Alta |
 | Modelo de diseño, relaciones, asociaciones, secuencia | 8 | [[U4.1 - Modelos de UP y Diagrama de Clases]] / [[U4 - Diagrama de Secuencia]] | 🟠 Media |
 | Diagrama de estados | parcial 1 de 2026 | [[U4.3 - Máquinas de Estado]] | 🟠 Media |
 | Arquitectura: capas, tiers, subsistemas, mecanismos | 5 | [[U5.5 - Arquitectura]] | 🟠 Media |
@@ -84,7 +84,11 @@ fuente: "Parcial 2 - Contenido/Exámenes/"
 
 ## Unidad 6 — Pruebas e Implementación
 
-### 6.1 / 6.2 — Pruebas
+### 6.1 y 6.2 — Pruebas
+
+> [!success] Respondidas
+> Todas tienen respuesta desarrollada (marcadas con 📝) en [[U6.1 - Pruebas#14. Preguntas tipo parcial]] (técnicas, inspecciones y debugging) y en [[U6.2 - Tipos de Pruebas#13. Preguntas tipo parcial]] (planes, tipos y terminación).
+
 - Elabore un **plan de pruebas** considerando que cuenta con **tres programadores**. *(P2 2011)*
 - Formule un **plan de pruebas personal** (aplicable a tu organización) y explique **en qué circunstancias lo daría por terminado**. *(P2 2017, 20 pts)*
 - Defina y describa los **tipos de prueba** que conoce **con y sin usuarios presentes**. *(P2 2017, 20 pts)*
@@ -103,7 +107,11 @@ fuente: "Parcial 2 - Contenido/Exámenes/"
 > Para el archivo de **1 a 10.000 registros**, el documento responde "probaría con 0, 1, 500, 1000 y 1001". **Está mal**: esos son límites de un rango de 1 a 1000.
 > Con **análisis de valores límite** correcto: **0** (inválido), **1** (mínimo), **2**, **9.999**, **10.000** (máximo) y **10.001** (inválido). Se puede sumar un valor intermedio representativo de la partición válida.
 
-### 6.3 — Implementación
+### 6.3 — Implementación → [[U6.3 - Implementación#12. Preguntas tipo parcial]]
+
+> [!warning] Fuera de la presentación
+> **Mantenimiento** y **rejuvenecimiento** no están en la presentación 6.3. Las respuestas están como `Extra` en [[U6.3 - Implementación#11. Mantenimiento y rejuvenecimiento]].
+
 - Explique los **tipos de mantenimiento** y cite ejemplos. *(Final 03/2012, Final 07/2012)*
 - ¿En qué consiste el **"rejuvenecimiento del software"** y para qué sirve? *(Final 03/2012, 10 pts)*
 - Nombre las **desventajas de la conversión en paralelo**. *(Final 07/2012)*
