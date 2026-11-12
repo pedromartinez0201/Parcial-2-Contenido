@@ -1438,12 +1438,12 @@ function home(){
   const nDev=Math.min(cfg.dev,devPool(cfg).length),nUml=Math.min(cfg.uml,umlPool().length);
   const nMc=cfg.n>=9999?pool.length:Math.min(cfg.n,pool.length),count=nMc+nDev+nUml;
   const mins=Math.round(nMc*MIN.mc+nDev*MIN.dev+nUml*MIN.uml);
-  let h=`<div class="card"><h1>Practicá para el Parcial 2</h1><p class="muted">${BANK.length} de multiple choice (${orig} del parcial modelo), ${OPEN.filter(q=>q.open==='dev').length} de desarrollo y ${umlPool().length} ejercicios de diagrama de clases a pseudocódigo. Ya viste ${seen}.</p>`;
+  let h=`<div class="card"><h1>Practicá para el Parcial 2</h1><p class="muted">${BANK.length} de multiple choice (${orig} del parcial modelo), ${OPEN.filter(q=>q.open==='dev').length} de desarrollo y ${umlPool().length} ejercicios de diagrama de clases a pseudocódigo. Ya viste ${seen}.</p><div class="row" style="margin-top:10px"><button class="b s small" data-act="umlOnly">Practicar solo diagrama a pseudocódigo (${umlPool().length})</button></div>`;
   if(resume&&resume.ids&&resume.ids.every(id=>byId[id]))h+=`<div class="row" style="margin-top:10px"><span class="warn">Tenés un intento sin terminar (${resume.mode==='exam'?'simulacro':'práctica'}, ${resume.ids.length} preguntas).</span><span class="row"><button class="b small" data-act="resume">Continuar</button><button class="b s small" data-act="discard">Descartar</button></span></div>`;
   h+=`</div><div class="card"><div class="field"><span class="lab">Modo</span><div class="seg"><button data-mode="exam" aria-pressed="${cfg.mode==='exam'}">Simulacro</button><button data-mode="practice" aria-pressed="${cfg.mode==='practice'}">Práctica</button></div><p class="muted" style="margin-top:6px">${cfg.mode==='exam'?'Con tiempo y corrección al final.':'Sin tiempo: corrige y explica cada pregunta al responderla.'}</p></div>`;
   h+=`<div class="field"><span class="lab">Multiple choice</span><div class="seg">${[[0,'0'],[10,'10'],[18,'18'],[30,'30'],[50,'50'],[9999,'Todas']].map(([v,l])=>`<button data-n="${v}" aria-pressed="${cfg.n===v}">${l}</button>`).join('')}</div></div>`;
   h+=`<div class="field"><span class="lab">Preguntas de desarrollo</span><div class="seg">${[0,1,2,3,5].map(v=>`<button data-dev="${v}" aria-pressed="${cfg.dev===v}">${v}</button>`).join('')}</div><p class="muted" style="margin-top:6px">Salen de los temas elegidos abajo.</p></div>`;
-  h+=`<div class="field"><span class="lab">Diagrama de clases a pseudocódigo</span><div class="seg">${[0,1,2].map(v=>`<button data-uml="${v}" aria-pressed="${cfg.uml===v}">${v}</button>`).join('')}</div><p class="muted" style="margin-top:6px">Como en el Parcial 1: te dan el diagrama y lo pasás a pseudocódigo.</p></div>`;
+  h+=`<div class="field"><span class="lab">Diagrama de clases a pseudocódigo</span><div class="seg">${[[0,'0'],[1,'1'],[2,'2'],[3,'3'],[9999,'Todos']].map(([v,l])=>`<button data-uml="${v}" aria-pressed="${cfg.uml===v}">${l}</button>`).join('')}</div><p class="muted" style="margin-top:6px">Como en el Parcial 1: te dan el diagrama y lo pasás a pseudocódigo. <button class="link" data-act="umlSet">Armar simulacro solo con esto</button></p></div>`;
   if(cfg.mode==='exam')h+=`<div class="field"><label class="check"><input type="checkbox" id="timed" ${cfg.timed?'checked':''}> Con límite de tiempo (${mins} min para ${count} preguntas)</label></div>`;
   h+=`<div class="field"><label class="check"><input type="checkbox" id="orig" ${cfg.origOnly?'checked':''}> Multiple choice: solo preguntas del parcial modelo</label></div></div>`;
   h+=`<div class="card"><div class="row" style="margin-bottom:10px"><h3 style="margin:0">Temas</h3><span class="row"><button class="link" data-all="1">Todos</button><button class="link" data-all="0">Ninguno</button></span></div>`;
@@ -1473,6 +1473,8 @@ document.addEventListener('click',ev=>{
   if(d.filter){S.filter=d.filter;return results()}
   switch(d.act){
     case'start':return begin(pick({...cfg,n:cfg.n>=9999?poolFor(cfg).length:cfg.n}),cfg.mode,cfg.mode==='exam'&&cfg.timed);
+    case'umlOnly':return begin(leastSeen(umlPool()),'practice',false);
+    case'umlSet':cfg.n=0;cfg.dev=0;if(!cfg.uml)cfg.uml=1;return home();
     case'review':return begin(shuffle(Object.keys(store.wrong).filter(id=>byId[id]).map(id=>byId[id])),'practice',false);
     case'resume':S=load(SESSION,null);S.marks=S.marks||S.ids.map(()=>[]);runTimer();if(!S.done)render();return;
     case'discard':S=null;persist();return home();
