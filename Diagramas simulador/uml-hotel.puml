@@ -1,0 +1,53 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 13
+skinparam backgroundColor #FFFFFF
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCEBFA
+  BorderColor #24527A
+  ArrowColor #24527A
+  ArrowFontColor #12304A
+  FontColor #12304A
+  AttributeFontColor #1E293B
+}
+hide empty members
+skinparam nodesep 50
+skinparam ranksep 60
+class ResponsableReserva {
+  + apellido: String
+  + nombre: String
+}
+class Reserva {
+  + fechaIngreso: Date
+  + fechaEgreso: Date
+}
+class Ocupacion {
+  + fechaIngreso: Date
+  + fechaEgreso: Date
+}
+class Habitacion {
+  + numero: int
+  + estado: EstadoHabitacion
+}
+class HabitacionPremium {
+  + poseeTV: Boolean
+}
+enum EstadoHabitacion <<enum>> {
+  OCUPADA
+  RESERVADA
+}
+interface IGestorHabitacion <<interface>> {
+  - guardarHabitacion()
+}
+class GestorHabitacion
+ResponsableReserva "*" -- "*" Habitacion
+(ResponsableReserva, Habitacion) .. Reserva
+Ocupacion "*" --> "1" Habitacion : habitacion
+Habitacion <|-- HabitacionPremium
+IGestorHabitacion <|.. GestorHabitacion
+GestorHabitacion ..> Habitacion
+@enduml

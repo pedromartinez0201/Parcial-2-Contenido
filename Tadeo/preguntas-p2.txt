@@ -1,0 +1,307 @@
+¿Cuál/es de las siguientes afirmaciones son correctas acerca del uso de patrones de diseño?
+
+a.
+Permiten mejorar la flexibilidad y la mantenibilidad del software.
+
+b.
+Los patrones son recetas que deben seguirse al pie de la letra.
+
+c.
+Solo pueden aplicarlos programadores avanzados.
+
+d.
+Están diseñados para reemplazar cualquier tipo de documentación.
+
+e.
+Los patrones de diseño formalizan un lenguaje común entre los diseñadores
+
+Pregunta 2
+En la Administración de la Configuración, ¿Cuál de las siguientes afirmaciones son verdaderas respecto a las líneas base?
+
+a.
+No pueden modificarse bajo ninguna circunstancia.
+
+b.
+Pueden actualizarse mediante un proceso formal de control de cambios.
+
+c.
+Incluyen elementos aprobados como código, documentación y pruebas.
+
+d.
+Sirven como referencia para comparar versiones posteriores.
+
+
+¿Qué técnicas o herramientas pueden ayudar a realizar el debugging? (Seleccione todas las que correspondan)
+
+a.
+Análisis de logs.
+
+b.
+Depurador integrado (IDE debugger)
+
+c.
+Uso de breakpoints.
+
+d.
+Pruebas unitarias.
+
+Pregunta 4
+¿Qué consecuencia puede tener un sistema sino se implementa el patrón DAO u otro patrón de persistencia?
+
+a.
+Mejor rendimiento en el acceso a la base de datos.
+
+b.
+Incremento de la cohesión entre capas.
+
+c.
+Fuerte dependencia de la capa de negocio respecto a la capa de acceso a datos.
+
+d.
+Disminución del acoplamiento entre componentes.
+
+Pregunta 5
+¿Cuáles de los siguientes tipos de pruebas se consideran pruebas no funcionales? (Seleccione todas las que correspondan)
+
+a.
+Pruebas de rendimiento.
+
+b.
+Pruebas de integración.
+
+c.
+Pruebas de stress
+
+d.
+Pruebas de unidad.
+
+e.
+Pruebas de seguridad.
+
+Pregunta 6
+En un diagrama de secuencia, ¿cuáles de las siguientes afirmaciones son correctas?
+
+a.
+Los mensajes de retorno pueden omitirse si no aportan información relevante al flujo
+
+b.
+Un mensaje asíncrono bloquea siempre al emisor hasta recibir respuesta.
+
+c.
+Un diagrama de secuencia puede generarse a partir de la ingeniería inversa de código fuente.
+
+d.
+Las barras de activación representan períodos durante los cuales un objeto está ejecutando una operación
+
+e.
+Un mensaje síncrono implica que el emisor espera la finalización de la operación antes de continuar.
+
+
+Luego de terminar todas las funcionalidades, un equipo de QA valida que el sistema completo cumpla con los requisitos especificados. Este proceso corresponde a:
+
+a.
+Pruebas de sistema.
+
+b.
+Pruebas de integración.
+
+c.
+Pruebas unitarias.
+
+d.
+Pruebas de regresión.
+
+Pregunta 8
+En una arquitectura con DAO y Factory, ¿qué sucede si se quiere agregar soporte para una nueva base de datos?
+
+a.
+No es posible agregar nuevas bases de datos sin reescribir toda la capa de acceso a datos.
+
+b.
+Es necesario modificar la lógica de negocio para aceptar el nuevo tipo de conexión
+
+c.
+Solo se implementan los nuevos DAOs y una nueva Factory que los provea.
+
+d.
+Se deben modificar todas las clases DAO existentes.
+
+Un hospital está incorporando un nuevo módulo digital para el área de emergencias. Sin embargo, el área de facturación seguirá con el sistema anterior en una primer etapa. El objetivo es que el personal se acostumbre progresivamente al nuevo sistema, mientras el resto del sistema sigue funcionando.
+
+¿Qué tipo de implementación sería la más apropiada?
+
+a.
+Total
+
+b.
+Por prototipado
+
+c.
+Paralela
+
+d.
+Gradual
+
+Pregunta 10
+En una institución educativa que usa un aplicativo Web, se detecta que los usuarios experimentan lentitud en horas pico.
+
+Se evalúan distintas soluciones para mejorar el rendimiento del sistema:
+
+Migrar el servidor a una máquina con más CPU y memoria. (a)
+Instalar varios servidores web y usar un balanceador de carga. (b)
+Replicar la base de datos para distribuir lecturas. (c)
+Optimizar la interfaz visual reduciendo imágenes. (d)
+¿Cuáles de estas medidas representan escalabilidad horizontal?
+
+a.
+Solo la b y c
+
+b.
+Solo la a y c
+
+c.
+Solo la a y d
+
+d.
+Solo la b
+
+
+¿Cuáles de los siguientes tipos de mantenimiento pueden involucrar cambios en el código fuente del software? (Seleccione todas las que correspondan)
+
+a.
+Preventivo
+
+b.
+Perfectivo
+
+c.
+Correctivo
+
+d.
+Adaptativo
+
+Pregunta 12
+
+¿Qué principio/s SOLID favorecen una alta cohesión?
+
+a.
+Principio de abierto/cerrado.
+
+b.
+Principio de segregación de interfaces.
+
+c.
+Principio de sustitución de Liskov.
+
+d.
+Principio de responsabilidad única.
+
+
+Pregunta 13
+
+Una empresa multinacional desea reemplazar su sistema de gestión de recursos humanos. El sistema actual funciona bien pero es obsoleto, y es vital que el nuevo sistema no interrumpa la operación diaria. Se debe garantizar que el nuevo sistema liquide los sueldos sin errores. El sistema es muy complejo y afecta a más de 5 áreas organizacionales.
+
+¿Qué tipo de implementación sería la más apropiada?
+
+
+a.
+Por prototipado
+
+b.
+Total
+
+c.
+Paralela
+
+d.
+Gradual
+
+Pregunta 14
+
+En el contexto de la Administración de la Configuración de Software (Software Configuration Management, SCM), ¿cuáles de los siguientes elementos pueden considerarse ítems de configuración?
+
+a.
+Casos de prueba y planes de testing
+
+b.
+Código fuente del sistema.
+
+c.
+Equipos del laboratorio de pruebas.
+
+d.
+Scripts de despliegue y archivos de configuración del entorno.
+
+e.
+Manuales de usuario y documentación técnica.
+
+f.
+Calendario de reuniones del equipo de desarrollo.
+
+
+Una empresa debe actualizar su sistema para qué sea compatible con una nueva versión del sistema operativo. ¿Qué tipo de mantenimiento se está realizando?
+
+a.
+Adaptativo
+
+b.
+Preventivo
+
+c.
+Perfectivo
+
+d.
+Correctivo
+
+Pregunta 16
+
+¿Cuál de las siguientes afirmaciones describe qué es una arquitectura de software?
+
+a.
+El conjunto de decisiones técnicas que definen cómo se organiza y comunica el sistema internamente.
+
+b.
+El cronograma de desarrollo y las tareas asignadas al equipo durante el proyecto
+
+c.
+El resultado de las decisiones de diseño que impactan en atributos como rendimiento, seguridad y mantenibilidad.
+
+d.
+La estructura fundamental de un sistema, que define sus componentes, sus relaciones y los principios que guían su evolución.
+
+e.
+El diseño gráfico de la interfaz de usuario, incluyendo colores, tipografía y disposición visual.
+
+
+¿Cuál de los siguientes síntomas puede indicar que un software necesita rejuvenecimiento?
+
+a.
+Nuevo requerimiento de negocio
+
+b.
+Aumento en los recursos de la infraestructura tecnológica
+
+c.
+Aumento en el número de usuarios
+
+d.
+Todas las anteriores
+
+e.
+Lentitud progresiva en la ejecución de tareas
+
+Pregunta 18
+
+En un diagrama de actividad, un nodo final de flujo se diferencia de un nodo final de actividad porque:
+
+a.
+Ambos terminan la ejecución completa del diagrama.
+
+b.
+El nodo final de flujo solo detiene una secuencia de flujo específica, mientras que el nodo final de actividad finaliza toda la actividad
+
+c.
+No existe diferencia entre ambos.
+
+d.
+El nodo final de flujo se usa solo en diagramas concurrentes

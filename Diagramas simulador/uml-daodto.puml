@@ -1,0 +1,50 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 13
+skinparam backgroundColor #FFFFFF
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCEBFA
+  BorderColor #24527A
+  ArrowColor #24527A
+  ArrowFontColor #12304A
+  FontColor #12304A
+  AttributeFontColor #1E293B
+}
+hide empty members
+skinparam nodesep 50
+skinparam ranksep 60
+class GestorLibro {
+  - dao: LibroDAO
+  + GestorLibro(dao: LibroDAO)
+  + consultarLibro(isbn: String): LibroDTO
+}
+interface LibroDAO <<interface>> {
+  + buscarPorIsbn(isbn: String): Libro
+  + guardar(libro: Libro): void
+  + eliminar(isbn: String): void
+}
+class LibroDAOMySQL
+class LibroDAOFake
+class Libro {
+  - isbn: String
+  - titulo: String
+  - autor: String
+  - precioCosto: double
+  - precioVenta: double
+}
+class LibroDTO {
+  - titulo: String
+  - autor: String
+  - precio: double
+}
+GestorLibro --> "1" LibroDAO : dao
+LibroDAO <|.. LibroDAOMySQL
+LibroDAO <|.. LibroDAOFake
+LibroDAO ..> Libro : <<usa>>
+GestorLibro ..> LibroDTO : <<crea>>
+GestorLibro ..> Libro : <<usa>>
+@enduml

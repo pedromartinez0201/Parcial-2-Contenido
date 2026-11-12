@@ -1,0 +1,46 @@
+@startuml
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam defaultFontSize 13
+skinparam backgroundColor #FFFFFF
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCEBFA
+  BorderColor #24527A
+  ArrowColor #24527A
+  ArrowFontColor #12304A
+  FontColor #12304A
+  AttributeFontColor #1E293B
+}
+hide empty members
+skinparam nodesep 50
+skinparam ranksep 60
+abstract class CheckoutCreator <<abstract>> {
+  + realizarCheckout(monto: double): void
+  + {abstract} crearMetodoPago(): MetodoPago
+}
+class CheckoutTarjeta {
+  + crearMetodoPago(): MetodoPago
+}
+class CheckoutPayPal {
+  + crearMetodoPago(): MetodoPago
+}
+interface MetodoPago <<interface>> {
+  + procesarPago(monto: double): void
+}
+class TarjetaCredito {
+  + procesarPago(monto: double): void
+}
+class PayPal {
+  + procesarPago(monto: double): void
+}
+CheckoutCreator <|-- CheckoutTarjeta
+CheckoutCreator <|-- CheckoutPayPal
+CheckoutCreator ..> MetodoPago : <<usa>>
+MetodoPago <|.. TarjetaCredito
+MetodoPago <|.. PayPal
+CheckoutTarjeta ..> TarjetaCredito : <<crea>>
+CheckoutPayPal ..> PayPal : <<crea>>
+@enduml
